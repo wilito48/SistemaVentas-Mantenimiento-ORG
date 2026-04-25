@@ -12,13 +12,20 @@ public class VentaService {
     private ClienteService clienteService;
     private ProductoService productoService;
     private VentaRepository ventaRepo;
+    private DescuentoService descuentoService;
 
     private Venta ventaActual;
 
     public VentaService(ClienteService clienteService, ProductoService productoService, VentaRepository ventaRepo) {
+        this(clienteService, productoService, ventaRepo, new DescuentoService());
+    }
+
+    public VentaService(ClienteService clienteService, ProductoService productoService, VentaRepository ventaRepo,
+            DescuentoService descuentoService) {
         this.clienteService = clienteService;
         this.productoService = productoService;
         this.ventaRepo = ventaRepo;
+        this.descuentoService = descuentoService;
     }
 
     public void crearVenta(String dniCliente) {
@@ -69,7 +76,10 @@ public class VentaService {
         ventaActual.finalizar();
         ventaRepo.guardar(ventaActual);
 
-        Console.info("Venta finalizada. Total: " + ventaActual.calcularTotal());
+        double total = ventaActual.calcularTotal();
+        double totalConDescuento = descuentoService.calcularTotalConDescuento(ventaActual.getCliente(), total);
+
+        Console.info("Venta finalizada. Total: " + totalConDescuento);
         ventaActual = null;
     }
 
