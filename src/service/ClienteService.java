@@ -1,15 +1,15 @@
 package service;
 
 import model.Cliente;
-import repository.ClienteRepository;
+import repository.IClienteRepository;
 import util.Console;
 import util.Validaciones;
 
 public class ClienteService {
 
-    private ClienteRepository clienteRepo;
+    private IClienteRepository clienteRepo;
 
-    public ClienteService(ClienteRepository clienteRepo) {
+    public ClienteService(IClienteRepository clienteRepo) {
         this.clienteRepo = clienteRepo;
     }
 
